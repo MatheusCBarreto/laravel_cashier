@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($id = 1; $id < 10; $id++) {
+        for ($id = 1; $id < 3; $id++) {
             DB::table('users')->insert([
                 "name" => "User $id",
                 "email" => "user_$id@teste.com",
