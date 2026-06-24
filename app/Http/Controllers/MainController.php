@@ -19,7 +19,19 @@ class MainController extends Controller
 
         if ($user) {
             auth()->login($user);
-            echo 'logado com sucesso <br>' . auth()->user()->name;
+            return redirect()->route('plans');
         }
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return redirect()->route('login');
+    }
+
+    public function plans()
+    {
+        return view('plans');
     }
 }
