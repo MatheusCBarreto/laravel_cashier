@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class MainController extends Controller
 {
@@ -32,6 +33,26 @@ class MainController extends Controller
 
     public function plans()
     {
-        return view('plans');
+        $prices = [
+            'monthly' => Crypt::encryptString(env('STRIPE_PRODUCT_ID') . "|" . env('STRIPE_MONTHLY_PRICE_ID')),
+            'yearly' => Crypt::encryptString(env('STRIPE_PRODUCT_ID') . "|" . env('STRIPE_YEARLY_PRICE_ID')),
+            'longest' => Crypt::encryptString(env('STRIPE_PRODUCT_ID') . "|" . env('STRIPE_LONGEST_PRICE_ID')),
+        ];
+
+        return view('plans', ['prices' => $prices]);
+    }
+
+    public function planSelected($id)
+    {
+        // check if $id is valid
+        $plan = Crypt::decryptString($id);
+
+        if (!$plan) {
+            return redirect()->route('plans');
+        }
+
+        $data = explode('|', $plan);
+        echo "Product ID: $data[0]";
+        echo "Product Price: $data[1]";
     }
 }
