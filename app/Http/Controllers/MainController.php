@@ -51,8 +51,20 @@ class MainController extends Controller
             return redirect()->route('plans');
         }
 
-        $data = explode('|', $plan);
-        echo "Product ID: $data[0]";
-        echo "Product Price: $data[1]";
+        $plan = explode('|', $plan);
+        $product_id = $plan[0];
+        $price_id = $plan[1];
+
+        return auth()->user()
+            ->newSubscription($product_id, $price_id)
+            ->checkout([
+                'success_url' => route('subscription.success'),
+                'cancel_url' => route('plans'),
+            ]);
+    }
+
+    public function subscriptionSuccess()
+    {
+        echo "Subscrição realizada com sucesso.";
     }
 }
