@@ -14,7 +14,7 @@ Route::middleware([isGuest::class])->group(function () {
 });
 
 Route::middleware([isUser::class])->group(function () {
-  
+
   Route::view('/', 'login');
   Route::get('/logout', [MainController::class, 'logout'])->name('logout');
 
@@ -22,11 +22,11 @@ Route::middleware([isUser::class])->group(function () {
 
     Route::get('/plans', [MainController::class, 'plans'])->name('plans');
     Route::get('/plan_selected/{id}', [MainController::class, 'planSelected'])->name('plan.selected');
-    Route::get('/subscription/success', [MainController::class, 'subscriptionSuccess'])->name('subscription.success');
   });
 
   Route::middleware([hasSubscription::class])->group(function () {
 
+    Route::get('/subscription/success', [MainController::class, 'subscriptionSuccess'])->name('subscription.success');
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
   });
 });
