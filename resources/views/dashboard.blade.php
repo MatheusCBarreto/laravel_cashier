@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,22 @@
     <div class="text-center mt-5">
         <p class="display-6">Dashboard!</p>
     </div>
+
+    <hr>
+
+    <div class="text-center">
+        <p>Subscrição termina em:
+            <strong>{{ $subscription_end }}</strong>
+        </p>
+    </div>
+
+    <hr>
+
+    @foreach ($invoices as $invoice)
+        <div class="text-center">
+            <a href="{{ route('invoice.download', $invoice->id) }}" class="btn btn-primary">Download fatura</a>
+        </div>
+    @endforeach
 
 </body>
 

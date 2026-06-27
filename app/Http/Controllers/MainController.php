@@ -70,6 +70,24 @@ class MainController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard');
+        $data = [];
+
+        // check the expiration of subscription
+        $timespamp = auth()->user()->subscription(env('STRIPE_PRODUCT_ID'))
+            ->asStripeSubscription()
+            ->current_period_end;
+
+        $data['subscription_end'] = date('d/m/y H:m:s', $timespamp);
+
+        // get invoices
+        $invoices = auth()->user()->invoices();
+        $data['invoices'] = $invoices;
+
+        return view('dashboard', $data);
+    }
+
+    public function invoiceDownload($id)
+    {
+        return auth()->user()->downloadInvoice($id);
     }
 }
